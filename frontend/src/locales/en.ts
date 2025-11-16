@@ -67,6 +67,8 @@ export const en = {
     line: "Line",
     bar: "Bar",
     pie: "Pie",
+    selectColumns: "Select Columns",
+    columns: "Columns",
   },
 };
 

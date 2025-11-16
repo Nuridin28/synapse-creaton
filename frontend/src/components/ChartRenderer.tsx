@@ -31,8 +31,8 @@ export function ChartRenderer({ type, data }: ChartRendererProps) {
 
   if (type === 'line') {
     return (
-      <ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">
-        <LineChart data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
+      <ResponsiveContainer width="100%" height={400} className="sm:h-[450px]">
+        <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
           <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" fontSize={12} />
           <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
@@ -61,8 +61,8 @@ export function ChartRenderer({ type, data }: ChartRendererProps) {
 
   if (type === 'bar') {
     return (
-      <ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">
-        <BarChart data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
+      <ResponsiveContainer width="100%" height={400} className="sm:h-[450px]">
+        <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
           <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" fontSize={12} />
           <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
@@ -89,16 +89,16 @@ export function ChartRenderer({ type, data }: ChartRendererProps) {
     }));
 
     return (
-      <ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">
-        <PieChart margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+      <ResponsiveContainer width="100%" height={400} className="sm:h-[450px]">
+        <PieChart margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
           <Pie
             data={pieData}
             cx="50%"
             cy="50%"
             labelLine={false}
             label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-            outerRadius={60}
-            className="sm:outerRadius-[80]"
+            outerRadius={100}
+            className="sm:outerRadius-[120]"
             fill="#8884d8"
             dataKey="value"
           >

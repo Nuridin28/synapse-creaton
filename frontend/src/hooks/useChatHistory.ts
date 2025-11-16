@@ -10,6 +10,7 @@ export interface Message {
   chartType?: 'line' | 'bar' | 'pie';
   chartData?: any;
   viewMode?: 'table' | 'line' | 'bar' | 'pie'; // Выбранный формат отображения
+  selectedColumns?: string[]; // Выбранные столбцы для графиков
   timestamp: Date;
 }
 
@@ -37,6 +38,12 @@ export function useChatHistory() {
     );
   };
 
+  const updateMessageSelectedColumns = (messageId: string, selectedColumns: string[]) => {
+    setMessages((prev) =>
+      prev.map((msg) => (msg.id === messageId ? { ...msg, selectedColumns } : msg))
+    );
+  };
+
   return {
     messages,
     addMessage,
@@ -44,5 +51,6 @@ export function useChatHistory() {
     isLoading,
     setIsLoading,
     updateMessageViewMode,
+    updateMessageSelectedColumns,
   };
 }

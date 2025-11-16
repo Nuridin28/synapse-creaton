@@ -15,7 +15,7 @@ import { useI18n } from '@/contexts/I18nContext';
 
 const Index = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const { messages, addMessage, isLoading, setIsLoading, updateMessageViewMode } = useChatHistory();
+  const { messages, addMessage, isLoading, setIsLoading, updateMessageViewMode, updateMessageSelectedColumns } = useChatHistory();
   const { sendQuery } = useQueryAPI();
   const { toast } = useToast();
   const { t } = useI18n();
@@ -91,7 +91,7 @@ const Index = () => {
 
         {/* Chat area */}
         <ScrollArea className="flex-1 p-3 sm:p-6" ref={scrollRef}>
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-7xl mx-auto">
             {messages.length === 0 && !isLoading && (
               <div className="text-center py-8 sm:py-12 px-4">
                 <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-primary/10 mb-3 sm:mb-4">
@@ -121,6 +121,7 @@ const Index = () => {
                 key={message.id} 
                 message={message} 
                 onViewModeChange={updateMessageViewMode}
+                onSelectedColumnsChange={updateMessageSelectedColumns}
               />
             ))}
 

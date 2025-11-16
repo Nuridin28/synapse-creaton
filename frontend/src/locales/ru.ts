@@ -67,6 +67,8 @@ export const ru = {
     line: "Линия",
     bar: "Гистограмма",
     pie: "Круговая",
+    selectColumns: "Выбрать столбцы",
+    columns: "Столбцы",
   },
 };
 

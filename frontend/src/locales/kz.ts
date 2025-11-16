@@ -67,6 +67,8 @@ export const kz = {
     line: "Сызық",
     bar: "Гистограмма",
     pie: "Дөңгелек",
+    selectColumns: "Бағандарды таңдау",
+    columns: "Бағандар",
   },
 };
 
