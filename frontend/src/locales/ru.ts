@@ -60,5 +60,13 @@ export const ru = {
     ru: "Русский",
     kz: "Қазақша",
   },
+  
+  // View mode
+  viewMode: {
+    table: "Таблица",
+    line: "Линия",
+    bar: "Гистограмма",
+    pie: "Круговая",
+  },
 };
 

@@ -9,6 +9,7 @@ export interface Message {
   rows?: any[];
   chartType?: 'line' | 'bar' | 'pie';
   chartData?: any;
+  viewMode?: 'table' | 'line' | 'bar' | 'pie'; // Выбранный формат отображения
   timestamp: Date;
 }
 
@@ -30,11 +31,18 @@ export function useChatHistory() {
     setMessages([]);
   };
 
+  const updateMessageViewMode = (messageId: string, viewMode: 'table' | 'line' | 'bar' | 'pie') => {
+    setMessages((prev) =>
+      prev.map((msg) => (msg.id === messageId ? { ...msg, viewMode } : msg))
+    );
+  };
+
   return {
     messages,
     addMessage,
     clearHistory,
     isLoading,
     setIsLoading,
+    updateMessageViewMode,
   };
 }

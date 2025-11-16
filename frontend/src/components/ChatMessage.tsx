@@ -1,14 +1,31 @@
 import { Message } from '@/hooks/useChatHistory';
-import { User, Bot } from 'lucide-react';
+import { User, Bot, Table2, LineChart, BarChart3, PieChart } from 'lucide-react';
 import { TableRenderer } from './TableRenderer';
 import { ChartRenderer } from './ChartRenderer';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { convertTableToChartData } from '@/lib/chartUtils';
+import { useI18n } from '@/contexts/I18nContext';
 
 interface ChatMessageProps {
   message: Message;
+  onViewModeChange?: (messageId: string, viewMode: 'table' | 'line' | 'bar' | 'pie') => void;
 }
 
-export function ChatMessage({ message }: ChatMessageProps) {
+export function ChatMessage({ message, onViewModeChange }: ChatMessageProps) {
   const isUser = message.role === 'user';
+  const { t } = useI18n();
+  const hasTableData = message.type === 'table' && message.columns && message.rows && message.columns.length > 0 && message.rows.length > 0;
+  const currentViewMode = message.viewMode || 'table';
+  
+  // Преобразуем табличные данные в формат для графиков
+  const chartData = hasTableData ? convertTableToChartData(message.columns!, message.rows!) : null;
+  const canShowCharts = chartData !== null;
+
+  const handleViewModeChange = (viewMode: 'table' | 'line' | 'bar' | 'pie') => {
+    if (onViewModeChange) {
+      onViewModeChange(message.id, viewMode);
+    }
+  };
 
   return (
     <div className={`flex gap-2 sm:gap-4 mb-4 sm:mb-6 ${isUser ? 'justify-end' : 'justify-start'}`}>
@@ -30,10 +47,77 @@ export function ChatMessage({ message }: ChatMessageProps) {
             <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
           )}
           
-          {message.type === 'table' && message.content && (
+          {hasTableData && (
             <div>
-              <p className="text-sm leading-relaxed mb-4">{message.content}</p>
-              <TableRenderer columns={message.columns || []} rows={message.rows || []} />
+              {message.content && (
+                <p className="text-sm leading-relaxed mb-4">{message.content}</p>
+              )}
+              
+              {/* Кнопки переключения формата */}
+              {canShowCharts && (
+                <div className="mb-4 flex flex-wrap gap-2">
+                  <ToggleGroup
+                    type="single"
+                    value={currentViewMode}
+                    onValueChange={(value) => {
+                      if (value && (value === 'table' || value === 'line' || value === 'bar' || value === 'pie')) {
+                        handleViewModeChange(value);
+                      }
+                    }}
+                    className="flex flex-wrap gap-1"
+                  >
+                    <ToggleGroupItem
+                      value="table"
+                      aria-label={t.viewMode.table}
+                      className="text-xs sm:text-sm"
+                    >
+                      <Table2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                      <span className="hidden sm:inline">{t.viewMode.table}</span>
+                    </ToggleGroupItem>
+                    <ToggleGroupItem
+                      value="line"
+                      aria-label={t.viewMode.line}
+                      className="text-xs sm:text-sm"
+                    >
+                      <LineChart className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                      <span className="hidden sm:inline">{t.viewMode.line}</span>
+                    </ToggleGroupItem>
+                    <ToggleGroupItem
+                      value="bar"
+                      aria-label={t.viewMode.bar}
+                      className="text-xs sm:text-sm"
+                    >
+                      <BarChart3 className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                      <span className="hidden sm:inline">{t.viewMode.bar}</span>
+                    </ToggleGroupItem>
+                    <ToggleGroupItem
+                      value="pie"
+                      aria-label={t.viewMode.pie}
+                      className="text-xs sm:text-sm"
+                    >
+                      <PieChart className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                      <span className="hidden sm:inline">{t.viewMode.pie}</span>
+                    </ToggleGroupItem>
+                  </ToggleGroup>
+                </div>
+              )}
+              
+              {/* Отображение выбранного формата */}
+              {currentViewMode === 'table' && (
+                <TableRenderer columns={message.columns || []} rows={message.rows || []} />
+              )}
+              
+              {currentViewMode === 'line' && chartData && (
+                <ChartRenderer type="line" data={chartData} />
+              )}
+              
+              {currentViewMode === 'bar' && chartData && (
+                <ChartRenderer type="bar" data={chartData} />
+              )}
+              
+              {currentViewMode === 'pie' && chartData && (
+                <ChartRenderer type="pie" data={chartData} />
+              )}
             </div>
           )}
           

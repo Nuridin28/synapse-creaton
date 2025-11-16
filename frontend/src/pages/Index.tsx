@@ -15,7 +15,7 @@ import { useI18n } from '@/contexts/I18nContext';
 
 const Index = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const { messages, addMessage, isLoading, setIsLoading } = useChatHistory();
+  const { messages, addMessage, isLoading, setIsLoading, updateMessageViewMode } = useChatHistory();
   const { sendQuery } = useQueryAPI();
   const { toast } = useToast();
   const { t } = useI18n();
@@ -117,7 +117,11 @@ const Index = () => {
             )}
 
             {messages.map((message) => (
-              <ChatMessage key={message.id} message={message} />
+              <ChatMessage 
+                key={message.id} 
+                message={message} 
+                onViewModeChange={updateMessageViewMode}
+              />
             ))}
 
             {isLoading && <LoadingMessage />}

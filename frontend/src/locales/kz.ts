@@ -60,5 +60,13 @@ export const kz = {
     ru: "Русский",
     kz: "Қазақша",
   },
+  
+  // View mode
+  viewMode: {
+    table: "Кесте",
+    line: "Сызық",
+    bar: "Гистограмма",
+    pie: "Дөңгелек",
+  },
 };
 

@@ -60,5 +60,13 @@ export const en = {
     ru: "Русский",
     kz: "Қазақша",
   },
+  
+  // View mode
+  viewMode: {
+    table: "Table",
+    line: "Line",
+    bar: "Bar",
+    pie: "Pie",
+  },
 };
 

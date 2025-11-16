@@ -37,6 +37,7 @@ export function useQueryAPI() {
         content: hasData ? 'Query result:' : 'No data returned',
         columns,
         rows,
+        viewMode: hasData ? 'table' : undefined, // По умолчанию таблица
         timestamp: new Date(),
       };
 
